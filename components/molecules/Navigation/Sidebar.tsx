@@ -1,16 +1,17 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { IconType } from "react-icons";
-import { LuBuilding, LuClipboardCopy, LuIndianRupee, LuLandmark, LuLayoutDashboard, LuPackage, LuPackage2, LuPresentation, LuTruck, LuUsers2, LuChevronsRight, LuChevronDown } from 'react-icons/lu'
-
-import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Dispatch, SetStateAction, useState } from "react";
+import { IconType } from "react-icons";
+import { LuBuilding, LuChevronDown, LuChevronsRight, LuClipboardCopy, LuIndianRupee, LuLandmark, LuLayoutDashboard, LuPackage2, LuPresentation, LuTruck, LuUsers2 } from 'react-icons/lu';
 
 export const Sidebar = () => {
+  const pathname = usePathname()
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState(pathname);
 
   return (
     <motion.nav
@@ -50,7 +51,7 @@ export const Sidebar = () => {
           />
       
         <Option
-          href="/sales"
+          href="/sales "
           Icon={LuIndianRupee}
           title="Sales"
           selected={selected}
@@ -126,8 +127,8 @@ const Option = ({
     <Link href={href}>
     <motion.button
       layout
-      onClick={() => setSelected(title)}
-      className={`relative flex h-10 w-full items-center rounded-md transition-colors ${selected === title ? "bg-blue-100 text-blue-800" : "text-slate-500 hover:bg-slate-100"}`}
+      onClick={() => setSelected(href)}
+      className={`relative flex h-10 w-full items-center rounded-md transition-colors ${selected === href ? "bg-blue-100 text-blue-800" : "text-slate-500 hover:bg-slate-100"}`}
     >
       <motion.div
         layout

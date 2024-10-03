@@ -1,19 +1,21 @@
 'use client'
-import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import React from 'react'
-import { LuCalendar, LuFilter } from 'react-icons/lu'
-import { useState } from 'react'
 import AnimatedTabs from '@/components/ui/animated-underline-tabs'
+import { Badge } from '@/components/ui/badge'
+import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { LuFilter } from 'react-icons/lu'
 
 const Topbar = () => {
-    const [date, setDate] = useState(new Date());
+    // const [date, setDate] = useState(new Date());
+    const path = usePathname()
+    const breadcrumb = path?.split('/').slice(1).map((item) => item.toUpperCase()).join(' ')
   return (
     <>
-    <div className="h-12 w-[calc(100vw-250px)] border-b border-slate-300 flex justify-between items-center p-4">
+    <div className="h-12 w-full border-b border-slate-300 flex justify-between items-center p-4 bg-white">
        <div className='flex items-center gap-2'>
         <div className='bg-purple-500 w-4 h-4 rounded-sm'></div>
-        <p className='text-sm font-medium'>Dashboard</p>
+        <p className='text-sm font-medium'>{breadcrumb}</p>
        </div>
        <div>
 <div className="relative">
@@ -39,11 +41,11 @@ const Topbar = () => {
 </div>
        </div>
     </div>
-    <div className='h-12 w-[calc(100vw-250px)] border-b border-slate-300 flex justify-between items-center p-4'>
+    <div className='h-12 w-full border-b border-slate-300 flex justify-between items-center p-4 bg-white'>
     <div className='flex justify-between w-full items-center gap-2'>
        <AnimatedTabs />
        <div className="flex items-center gap-2">
-        <Badge variant="outline" className="flex items-center">{date.toLocaleDateString()}<LuCalendar className="ml-2" /></Badge>
+        <DatePickerWithRange></DatePickerWithRange>
         <Badge variant="outline" className="flex items-center">Filter<LuFilter className="ml-2" /></Badge>
         </div>
        </div>

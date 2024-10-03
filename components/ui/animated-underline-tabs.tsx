@@ -1,24 +1,32 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { usePathname } from 'next/navigation'
 
 const tabs = [
   { id: "table", label: "Table View" },
   { id: "chart", label: "Chart View" },
-
 ]
 
 export default function AnimatedTabs() {
   const [activeTab, setActiveTab] = useState(tabs[0].id)
+  const router = useRouter()
+  const path = usePathname()
+  const currentPath = path?.split('/').pop()
 
+  useEffect(() => {
+    setActiveTab("table")
+  }, [path])
+  
   return (
 
         <nav className="flex space-x-4 border-b border-gray-200" aria-label="Tabs">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {setActiveTab(tab.id); router.push(`?view=${tab.id}`)}}
               className={`${
                 activeTab === tab.id
                   ? "text-blue-600"
