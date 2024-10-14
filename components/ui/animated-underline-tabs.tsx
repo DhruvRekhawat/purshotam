@@ -13,7 +13,6 @@ export default function AnimatedTabs() {
   const [activeTab, setActiveTab] = useState(tabs[0].id)
   const router = useRouter()
   const path = usePathname()
-  const currentPath = path?.split('/').pop()
 
   useEffect(() => {
     setActiveTab("table")
