@@ -28,6 +28,20 @@ const formSchema = z.object({
   question: z.string(),
 })
 
+function parseJsonData(jsonString:string) {
+    try {
+      // Remove the "```json" and "```" markers if present
+      const cleanedString = jsonString.replace(/^```json\n|\n```$/g, '');
+      
+      // Parse the JSON string into a JavaScript object
+      const data = JSON.parse(cleanedString);
+      return data;
+    } catch (error) {
+      console.error("Error parsing JSON data:", error);
+      return [];
+    }
+  }
+
 
 
 export default function Chatbox() {
@@ -59,7 +73,8 @@ export default function Chatbox() {
         })
         const data:ChatbotResponse = await res.json()
         console.log(data)
-
+        const tableData = parseJsonData(data.response)
+        console.log("table json",tableData)
         setChat({
             message: data.response,
             type:"AI"

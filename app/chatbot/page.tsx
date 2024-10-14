@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useStore } from "@/stores/layout"
 import { ReactNode } from "react"
+import { json } from "stream/consumers"
+import { object } from "zod"
 
 
 
@@ -63,6 +65,41 @@ const MessageBox = (
         </Card>
     )
 }
+
+const JsonTable = ({ data }:{data: any}) => {
+  if (!data || data.length === 0) {
+    return <p>No data available</p>;
+  }
+
+  const headers = Object.keys(data[0]);
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr className="bg-gray-100">
+            {headers.map((header, index) => (
+              <th key={index} className="py-2 px-4 border-b text-left font-semibold text-gray-600">
+                {header.replace(/_/g, ' ').toUpperCase()}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row:any, rowIndex:number) => (
+            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+              {headers.map((header, cellIndex) => (
+                <td key={cellIndex} className="py-2 px-4 border-b">
+                  {row[header] !== null ? row[header].toString() : '-'}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 
 
