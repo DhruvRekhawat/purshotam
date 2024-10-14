@@ -20,7 +20,7 @@ const InfoCard = ({
   link
 }: {
   title: string,
-  value: number,
+  value: string,
   badge?: string,
   info?: string,
   icon?: React.ReactNode,

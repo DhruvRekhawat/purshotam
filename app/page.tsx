@@ -14,9 +14,9 @@ export default function Home() {
     : 'Good Night';
 
   const infoCards = [
-    { title: "Total Customers", value: 1250, badge: "", info: "Since last week",  link: "/sales" },
-    { title: "Total Sales", value: 1250, badge: "2.5%", info: "Since last week", icon: <LuBox/>, link: "/sales" },
-    { title: "Total Raw Materials", value: 1250, badge: "2.5%", info: "Since last week", icon: <LuBox />, link: "/sales" },
+    { title: "Total Customers", value: "1250", badge: "", info: "Since last week",  link: "/sales" },
+    { title: "Total Sales", value: "1250", badge: "2.5%", info: "Since last week", icon: <LuBox/>, link: "/sales" },
+    { title: "Total Raw Materials", value: "1250", badge: "2.5%", info: "Since last week", icon: <LuBox />, link: "/sales" },
   ]
 
 

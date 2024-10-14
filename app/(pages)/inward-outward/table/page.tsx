@@ -18,17 +18,8 @@ type resT = {
 
 async function getData(startDate:string,endDate:string) {
 
-  // if (!startDate || !endDate) {
-  //   return await fetch(`http://localhost:3000/inward-outward/api`,{
-  //     cache:"no-store",
-  //     method:"POST",
-  //     body:JSON.stringify({
-  //       startDate:"",
-  //       endDate:"",
-  //     })
-  //   })
-  // }
-  const res = await fetch(`http://localhost:3000/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
+
+  const res = await fetch(`/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
     cache:"no-store",
     method:"POST",
     body:JSON.stringify({
@@ -72,10 +63,10 @@ export default function TableView() {
   const outwardData = data.outwardData;
 
   const infoCardData = [
-    { title: "Total Inward Quantity", value: data.totalInwardQuantity, badge: "", info: "Number of operational plants", link: "", icon: LuBox },
-    { title: "Total Outward Quantity", value:  data?.totalOutwardQuantity, badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
-    { title: "Net Stock", value: 20, badge: "", info: "Number of plant heads", link: "", icon: LuUserCheck },
-    { title: "Total Number of Invoices", value: 20, badge: "", info: "Number of production heads", link: "", icon: LuHardHat },
+    { title: "Total Inward Quantity", value: data.totalInwardQuantity.toString(), badge: "", info: "Number of operational plants", link: "", icon: LuBox },
+    { title: "Total Outward Quantity", value:  data?.totalOutwardQuantity.toString(), badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
+    { title: "Net Stock", value: "20", badge: "", info: "Number of plant heads", link: "", icon: LuUserCheck },
+    { title: "Total Number of Invoices", value: "20", badge: "", info: "Number of production heads", link: "", icon: LuHardHat },
   
   ];
 
