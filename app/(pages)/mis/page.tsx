@@ -83,7 +83,7 @@ const data2: ProductionT[] = [
     monthlyMt: 303,
   },
 ]
-export const data3: ManpowerT[] = [
+const data3: ManpowerT[] = [
   {
     id: "001",
     particulars: "Production Workers",
