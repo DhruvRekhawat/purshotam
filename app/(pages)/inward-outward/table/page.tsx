@@ -9,7 +9,7 @@ import { LuBox, LuHardHat, LuUserCheck, LuUsers } from "react-icons/lu";
 
 
 async function getData() {
-  const res = await fetch('http://localhost:3000/inward-outward/api?dateFilter=hello&categoryFilter=yes',{cache:"no-store"})
+  const res = await fetch('https://purshotam.vercel.app/inward-outward/api?dateFilter=hello&categoryFilter=yes',{cache:"no-store"})
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
