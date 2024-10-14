@@ -9,7 +9,7 @@ import { LuBox, LuHardHat, LuUserCheck, LuUsers } from "react-icons/lu";
 
 
 async function getData() {
-  const res = await fetch('http://localhost:3000/inward-outward/api?dateFilter=hello&categoryFilter=yes')
+  const res = await fetch('http://localhost:3000/inward-outward/api?dateFilter=hello&categoryFilter=yes',{cache:"no-store"})
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -19,12 +19,11 @@ async function getData() {
   return res.json()
 }
 
-const TableView = async() => {
+export default async function TableView() {
 
   const data = await getData()
   const inwardData = data.inwardData
   const outwardData = data.outwardData
-  console.log(data)
 
   const infoCardData = [
     { title: "Total Inward Quantity", value: data.totalInwardQuantity, badge: "", info: "Number of operational plants", link: "", icon: LuBox },
@@ -64,4 +63,3 @@ const TableView = async() => {
   )
 }
 
-export default TableView
