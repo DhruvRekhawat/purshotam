@@ -8,10 +8,12 @@ type Store = {
 
   chats: {
     message:string,
+    data?:any,
     type:"User" | "AI"
   }[] | null
   setChat: (newChat:{
     message:string,
+    data?:any,
     type:"User" | "AI"
   })=>void
 }

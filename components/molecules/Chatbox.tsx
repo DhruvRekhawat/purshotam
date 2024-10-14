@@ -73,15 +73,20 @@ export default function Chatbox() {
         })
         const data:ChatbotResponse = await res.json()
         console.log(data)
-        const tableData = parseJsonData(data.response)
-        console.log("table json",tableData)
+
+        // Extract the message and parse the JSON separately
+        const message = data.response.split('```json')[0].trim(); // Get the message part
+        const jsonStringMatch = data.response.match(/```json\n([\s\S]*?)\n```/);
+        const jsonString = jsonStringMatch ? jsonStringMatch[1] : ""; // Extract the JSON part safely
+        const tableData = parseJsonData(jsonString); // Parse the JSON string
+
         setChat({
-            message: data.response,
+            message: message, // Store the message separately
+            data: tableData,
             type:"AI"
         })
 
-       
-
+        form.reset()
 
       }
 
