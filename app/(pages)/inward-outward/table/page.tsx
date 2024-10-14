@@ -7,7 +7,7 @@ import { LuBox, LuHardHat, LuUserCheck, LuUsers } from "react-icons/lu";
 
 
 async function getData() {
-  const res = await fetch('../api/route?dateFilter=hello&categoryFilter=yes')
+  const res = await fetch('http://localhost:3000/inward-outward/api?dateFilter=hello&categoryFilter=yes')
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
