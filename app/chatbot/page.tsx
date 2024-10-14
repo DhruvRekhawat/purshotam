@@ -26,10 +26,10 @@ const Page = () => {
             </>
         ) : (
             // Render messages when chats is not empty
-            <div className="w-full">
-             <h1 className="bg-gradient-to-tr from-blue-900 to-blue-400 text-transparent bg-clip-text text-center leading-loose text-4xl font-extrabold">Third Eye</h1>
+            <div className="w-full h-screen">
+             <h1 className="bg-gradient-to-tr from-blue-900 to-blue-400 text-transparent bg-clip-text text-center leading-loose text-2xl font-extrabold">Third Eye</h1>
 
-              <ScrollArea className="h-[400px] w-full p-8 fixed bottom-12 flex flex-col-reverse gap-8">
+              <ScrollArea className="h-[450px] w-full p-8 flex flex-col-reverse gap-8">
               {
                 chats.map((message,index) => (
                   <MessageBox message={message.message} type={message.type} data={message.data} key={index} />

@@ -1,11 +1,5 @@
 "use client"
 
-import * as React from "react"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { addDays, format } from "date-fns"
-import { DateRange } from "react-day-picker"
-
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -13,15 +7,61 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select"
+import { cn } from "@/lib/utils"
+import { useStore } from "@/stores/layout"
+import { format, subDays } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import * as React from "react"
+import { DateRange } from "react-day-picker"
 
-export function DatePickerWithRange({
+export default function DateRangePicker({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(2024, 0, 20), 20),
+    from: subDays(new Date(), 7),
+    to: new Date(),
   })
+
+  const {setStartDate,setEndDate} = useStore()
+
+  const presets = [
+    {
+      label: "Yesterday",
+      dates: { from: subDays(new Date(), 1), to: new Date() },
+    },
+    {
+      label: "Last 7 days",
+      dates: { from: subDays(new Date(), 7), to: new Date() },
+    },
+    {
+      label: "Last 14 days",
+      dates: { from: subDays(new Date(), 14), to: new Date() },
+    },
+    {
+      label: "Last 30 days",
+      dates: { from: subDays(new Date(), 30), to: new Date() },
+    },
+    {
+      label: "Last 90 days",
+      dates: { from: subDays(new Date(), 90), to: new Date() },
+    },
+  ]
+
+  const handleDateChange = (dates: React.SetStateAction<DateRange | undefined>) => {
+    if (typeof dates === 'function') {
+      setDate(dates);
+    } else {
+      setDate(dates);
+      if (dates?.from && dates?.to) {
+          const startDate = format(dates.from, 'yyyy-MM-dd'); // Format start date
+          const endDate = format(dates.to, 'yyyy-MM-dd'); // Format end date
+          setStartDate(startDate)
+          setEndDate(endDate)
+    }
+  }
+
+  }
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -31,7 +71,7 @@ export function DatePickerWithRange({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[250px] justify-start text-left font-normal",
+              "w-[300px] justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
@@ -50,31 +90,31 @@ export function DatePickerWithRange({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 flex" align="end">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
-          />
-        <Select
-          onValueChange={(value) => {
-            const newDate = addDays(new Date(), parseInt(value));
-            setDate({ from: newDate, to: newDate });
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
+        <PopoverContent className="w-auto p-0 flex flex-row-reverse gap-2" align="start">
+          <div className="flex flex-col space-y-2 p-2">
+            <p className="text-sm">Date Presets</p>
+            {presets.map((preset) => (
+              <Button
+                key={preset.label}
+                onClick={() => handleDateChange(preset.dates)}
+                variant="outline"
+                className="justify-start font-normal"
+              >
+                {preset.label}
+              </Button>
+            ))}
+          </div>
+          <div className="border-t border-border p-3">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={() => handleDateChange(date)}
+              numberOfMonths={2}
+              disabled={(date) => date > new Date()}
+            />
+          </div>
         </PopoverContent>
       </Popover>
     </div>

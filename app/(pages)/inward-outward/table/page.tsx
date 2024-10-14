@@ -1,13 +1,41 @@
+"use client"
+
 import { columns } from "@/components/molecules/Data-Table-Columns/io-columns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import InfoCard from "@/components/ui/info-card";
 import { LuBox, LuHardHat, LuUserCheck, LuUsers } from "react-icons/lu";
+import { useStore } from "@/stores/layout";
+import { useEffect, useState } from 'react'; // Add useEffect and useState imports
 
 
+type resT = {
+  inwardData: object[],
+  outwardData: object[],
+  totalInwardQuantity: number,
+  totalOutwardQuantity: number,
+}
 
-async function getData() {
-  const res = await fetch('https://purshotam.vercel.app/inward-outward/api?dateFilter=hello&categoryFilter=yes',{cache:"no-store"})
+async function getData(startDate:string,endDate:string) {
+
+  // if (!startDate || !endDate) {
+  //   return await fetch(`http://localhost:3000/inward-outward/api`,{
+  //     cache:"no-store",
+  //     method:"POST",
+  //     body:JSON.stringify({
+  //       startDate:"",
+  //       endDate:"",
+  //     })
+  //   })
+  // }
+  const res = await fetch(`http://localhost:3000/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
+    cache:"no-store",
+    method:"POST",
+    body:JSON.stringify({
+      startDate: startDate,
+      endDate: endDate,
+    })
+  })
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -15,19 +43,39 @@ async function getData() {
   }
  
   return res.json()
+
 }
 
-export default async function TableView() {
+export default function TableView() {
+  const { startDate, endDate } = useStore();
+  const [data, setData] = useState({
+  inwardData: {},
+  outwardData: {},
+  totalInwardQuantity: 0,
+  totalOutwardQuantity: 0,
+  }); // State to hold fetched data
+  const [loading, setLoading] = useState(true); // State to manage loading status
 
-  const data = await getData()
-  const inwardData = data.inwardData
-  const outwardData = data.outwardData
+  useEffect(() => {
+    const fetchData = async () => {
+      const response:resT = await getData(startDate, endDate);
+      setData(response);
+      setLoading(false); // Set loading to false after data is fetched
+    };
+
+    fetchData();
+  }, [startDate, endDate]); // Dependency array to refetch data on date change
+
+  if (loading || !data) return <div>Loading...</div>; // Show loading state
+
+  const inwardData = data.inwardData;
+  const outwardData = data.outwardData;
 
   const infoCardData = [
     { title: "Total Inward Quantity", value: data.totalInwardQuantity, badge: "", info: "Number of operational plants", link: "", icon: LuBox },
-    { title: "Total Outward Quantity", value:  data.totalOutwardQuantity, badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
-    { title: "Net Stock", value: "20", badge: "", info: "Number of plant heads", link: "", icon: LuUserCheck },
-    { title: "Total Number of Invoices", value: "20", badge: "", info: "Number of production heads", link: "", icon: LuHardHat },
+    { title: "Total Outward Quantity", value:  data?.totalOutwardQuantity, badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
+    { title: "Net Stock", value: 20, badge: "", info: "Number of plant heads", link: "", icon: LuUserCheck },
+    { title: "Total Number of Invoices", value: 20, badge: "", info: "Number of production heads", link: "", icon: LuHardHat },
   
   ];
 
@@ -45,7 +93,7 @@ export default async function TableView() {
         <CardTitle>Inward Data</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={inwardData} filter="plantName" />
+        <DataTable columns={columns} data={Array.isArray(inwardData) ? inwardData : []} filter="plantName" />
       </CardContent>
     </Card>
     <Card>
@@ -53,11 +101,10 @@ export default async function TableView() {
         <CardTitle>Outward Data</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={outwardData} filter="plantName" />
+        <DataTable columns={columns} data={Array.isArray(outwardData) ? outwardData : []} filter="plantName" />
       </CardContent>
     </Card>
     </div>
     </>
   )
 }
-

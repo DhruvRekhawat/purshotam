@@ -20,14 +20,14 @@ const InfoCard = ({
   link
 }: {
   title: string,
-  value: string,
+  value: number,
   badge?: string,
   info?: string,
   icon?: React.ReactNode,
   link: string
 }) => {
   return (
-    <Link href={link}>
+    
       <Card className='hover:bg-slate-100 hover:cursor-pointer'>
         <CardHeader className='flex flex-row justify-between items-center space-y-0 pb-4'>
           <div className='flex items-center gap-2'>
@@ -51,14 +51,15 @@ const InfoCard = ({
             </HoverCard>
           )}
         </CardHeader>
+        <Link href={link}>
         <CardContent className='flex flex-row justify-start gap-4 items-center px-8'>
           <h2 className='text-2xl font-semibold'>{value}</h2>
           {badge && (
             <Badge variant="outline" className='text-green-500 bg-green-50'>{badge}</Badge>
           )}
         </CardContent>
+        </Link>
       </Card>
-    </Link>
   )
 }
 

@@ -21,9 +21,9 @@ type Store = {
 const today = new Date();
 
 export const useStore = create<Store>()((set) => ({
-  startDate: today.toLocaleDateString(),
+  startDate: "",
   setStartDate: (date) => set((state) => ({ startDate: date })),
-  endDate: today.toLocaleDateString(),
+  endDate: "",
   setEndDate: (date) => set((state) => ({ endDate: date })),
   chats: null, // Initialize as null to match the type definition
   setChat:(newChat) => set((state)=>({chats: state.chats ? [...state.chats, newChat] : [newChat]}))

@@ -1,7 +1,7 @@
 'use client'
 import AnimatedTabs from '@/components/ui/animated-underline-tabs'
 import { Badge } from '@/components/ui/badge'
-import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import DateRangePicker from '@/components/ui/date-range-picker'
 import { usePathname } from 'next/navigation'
 import { LuFilter } from 'react-icons/lu'
 
@@ -44,7 +44,7 @@ const Topbar = () => {
     <div className='flex justify-between w-full items-center gap-2'>
        <AnimatedTabs />
        <div className="flex items-center gap-2">
-        <DatePickerWithRange></DatePickerWithRange>
+        <DateRangePicker></DateRangePicker>
         <Badge variant="outline" className="flex items-center">Filter<LuFilter className="ml-2" /></Badge>
         </div>
        </div>

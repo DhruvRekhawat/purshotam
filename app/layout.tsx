@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <main className="flex ">
         <Sidebar />
-        <div className="w-full bg-slate-50">
+        <div className="w-full bg-slate-50 overflow-x-hidden">
         <section>
           {children}
         </section>
