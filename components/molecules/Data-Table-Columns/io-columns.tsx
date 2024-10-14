@@ -1,29 +1,35 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type T = {
-  id: string
-  plantName: string,
-  godownName: string,
-  packagingType: string,
-  dispatchDate: string,
-  invoiceOrDCNumber: string,
-  invoiceOrDCDate: string,
-  clientName: string,
-  shipTo: string,
-  materialType: string,
-  packingListNumber: string,
-  packingListDate: string,
-  dispatchTonnage: string,
+// Define a type for the data structure
+export type EntryData = {
+    _id: string;
+    EntryNo: number;
+    EntryDate: Date;
+    EntryTime: string;
+    Category: string;
+    VendorName: string;
+    TransporterName: string;
+    GodownName: string;
+    "Doc No": string;
+    "Doc Date": string;
+    "ERP Packing qty(MT)": number;
+    "Empty Weight(KG)": number;
+    "Empty Weight DateTime": string;
+    "Loaded Weight(KG)": number;
+    "Loaded Weight DateTime": string;
+    "Net Weight(KG)": number;
+    VehicleNo: string;
+    Remarks: string;
 }
+
+// Update the existing type to use the new EntryData type
+export type T = EntryData;
 
 export const columns: ColumnDef<T>[] = [
     {
@@ -49,64 +55,72 @@ export const columns: ColumnDef<T>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "plantName",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Plant Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({row}) => {
-            return <Link href={`/inventory/${row.original.plantName}`}>{row.original.plantName}</Link>
-        }
+        accessorKey: "EntryNo",
+        header: "Entry No",
     },
     {
-        accessorKey: "godownName",
+        accessorKey: "EntryDate",
+        header: "Entry Date",
+        
+    },
+    {
+        accessorKey: "EntryTime",
+        header: "Entry Time",
+    },
+    {
+        accessorKey: "Category",
+        header: "Category",
+    },
+    {
+        accessorKey: "VendorName",
+        header: "Vendor Name",
+    },
+    {
+        accessorKey: "TransporterName",
+        header: "Transporter Name",
+    },
+    {
+        accessorKey: "GodownName",
         header: "Godown Name",
     },
     {
-        accessorKey: "packagingType",
-        header: "Packaging Type",
+        accessorKey: "Doc No",
+        header: "Doc No",
     },
     {
-        accessorKey: "dispatchDate",
-        header: "Dispatch Date",
+        accessorKey: "Doc Date",
+        header: "Doc Date",
     },
     {
-        accessorKey: "invoiceOrDCNumber",
-        header: "Invoice/DC Number",
+        accessorKey: "ERP Packing qty(MT)",
+        header: "ERP Packing qty (MT)",
     },
     {
-        accessorKey: "invoiceOrDCDate",
-        header: "Invoice/DC Date",
+        accessorKey: "Empty Weight(KG)",
+        header: "Empty Weight (KG)",
     },
     {
-        accessorKey: "clientName",
-        header: "Client Name",
+        accessorKey: "Empty Weight DateTime",
+        header: "Empty Weight DateTime",
     },
     {
-        accessorKey: "shipTo",
-        header: "Ship To",
+        accessorKey: "Loaded Weight(KG)",
+        header: "Loaded Weight (KG)",
     },
     {
-        accessorKey: "materialType",
-        header: "Material Type",
+        accessorKey: "Loaded Weight DateTime",
+        header: "Loaded Weight DateTime",
     },
     {
-        accessorKey: "packingListNumber",
-        header: "Packing List Number",
+        accessorKey: "Net Weight(KG)",
+        header: "Net Weight (KG)",
     },
     {
-        accessorKey: "packingListDate",
-        header: "Packing List Date",
+        accessorKey: "VehicleNo",
+        header: "Vehicle No",
     },
     {
-        accessorKey: "dispatchTonnage",
-        header: "Dispatch Tonnage",
+        accessorKey: "Remarks",
+        header: "Remarks",
     },
 ]

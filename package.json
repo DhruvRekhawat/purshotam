@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix \"app/**/*.{ts,tsx,js,jsx}\" \"components/**/*.{ts,tsx,js,jsx}\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

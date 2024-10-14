@@ -1,7 +1,5 @@
-import { Donut } from "@/components/molecules/Charts/donut"
 import { BarMultiple } from "@/components/molecules/Charts/bar-multiple"
 import { DonutTitle } from "@/components/molecules/Charts/donut-title"
-import { BarHorizontal } from "@/components/molecules/Charts/bar-horizontal"
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
 
 const ChartView = () => {

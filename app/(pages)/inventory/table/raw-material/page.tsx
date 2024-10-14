@@ -1,6 +1,5 @@
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
 import { DonutTitle } from "@/components/molecules/Charts/donut-title"
-import { PieLabel } from "@/components/molecules/Charts/pie-label"
 import { columns,T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"

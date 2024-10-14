@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import {Sidebar} from "@/components/molecules/Navigation/Sidebar";
-import Topbar from "@/components/molecules/Navigation/Topbar";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -29,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="flex">
+        <main className="flex ">
         <Sidebar />
         <div className="w-full bg-slate-50">
         <section>

@@ -2,7 +2,7 @@ import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
 import { columns,T} from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { LuInfo, LuPackage, LuBoxes, LuRecycle, LuBox, LuCheckSquare, LuXSquare } from "react-icons/lu";
+import { LuPackage, LuBoxes, LuRecycle, LuBox, LuCheckSquare, LuXSquare } from "react-icons/lu";
 
 
 const TableView = () => {

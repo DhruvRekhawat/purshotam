@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { IconType } from "react-icons";
-import { LuBuilding, LuChevronDown, LuChevronsRight, LuClipboardCopy, LuIndianRupee, LuLandmark, LuLayoutDashboard, LuPackage2, LuPresentation, LuTruck, LuUsers2 } from 'react-icons/lu';
+import { LuBuilding, LuChevronDown, LuChevronsRight, LuClipboardCopy, LuIndianRupee, LuLandmark, LuLayoutDashboard, LuPackage2, LuPresentation, LuSparkles, LuTruck, LuUsers2 } from 'react-icons/lu';
 
 export const Sidebar = () => {
   const pathname = usePathname()
@@ -95,6 +95,14 @@ export const Sidebar = () => {
           href="project-wise-summary"
           Icon={LuLandmark}
           title="Project Wise Summary"
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
+        />
+        <Option
+          href="chatbot"
+          Icon={LuSparkles}
+          title="Third Eye Chatbot"
           selected={selected}
           setSelected={setSelected}
           open={open}

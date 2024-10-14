@@ -1,25 +1,30 @@
 import { create } from 'zustand'
 
 type Store = {
-  isNavOpen: boolean
-  toggleIsNavOpen: void 
-
   startDate: string
   setStartDate:(date:string)=> void
   endDate: string
   setEndDate:(date:string)=> void
+
+  chats: {
+    message:string,
+    type:"User" | "AI"
+  }[] | null
+  setChat: (newChat:{
+    message:string,
+    type:"User" | "AI"
+  })=>void
 }
 
 const today = new Date();
 
 export const useStore = create<Store>()((set) => ({
-  isNavOpen: true,
-  toggleIsNavOpen: set((state) => ({ isNavOpen: !state.isNavOpen })),
-  startDate: today.toLocaleDateString(""),
+  startDate: today.toLocaleDateString(),
   setStartDate: (date) => set((state) => ({ startDate: date })),
-  endDate: today.toLocaleDateString(""),
-  setEndDate: (date) => set((state) => ({ startDate: date })),
+  endDate: today.toLocaleDateString(),
+  setEndDate: (date) => set((state) => ({ endDate: date })),
+  chats: null, // Initialize as null to match the type definition
+  setChat:(newChat) => set((state)=>({chats: state.chats ? [...state.chats, newChat] : [newChat]}))
 }))
-
 
 

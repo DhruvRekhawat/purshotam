@@ -3,7 +3,6 @@ import AnimatedTabs from '@/components/ui/animated-underline-tabs'
 import { Badge } from '@/components/ui/badge'
 import { DatePickerWithRange } from '@/components/ui/date-range-picker'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 import { LuFilter } from 'react-icons/lu'
 
 const Topbar = () => {

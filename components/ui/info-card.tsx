@@ -8,7 +8,7 @@ import {
   } from "@/components/ui/hover-card"
   
 import React from 'react'
-import { LuBox, LuInfo } from 'react-icons/lu'
+import { LuInfo } from 'react-icons/lu'
 import Link from 'next/link'
 
 const InfoCard = ({
