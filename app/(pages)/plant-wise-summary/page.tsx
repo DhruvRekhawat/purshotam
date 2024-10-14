@@ -1,5 +1,5 @@
-import TableView from "./table/page"
-import ChartView from "./chart/page"
+import ChartView from "./chart/page";
+import TableView from "./table/page";
 
 const page = ({searchParams}:{searchParams: {view: string}}) => {
   const view = searchParams.view;

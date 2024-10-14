@@ -1,10 +1,10 @@
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
 import { DonutTitle } from "@/components/molecules/Charts/donut-title"
-import { columns,T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
+import { columns, T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
-import { LuPackage, LuBoxes, LuRecycle, LuBox, LuCheckSquare, LuXSquare } from "react-icons/lu"
+import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu"
 
 
 const page = () => {

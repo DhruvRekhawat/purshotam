@@ -1,6 +1,6 @@
-import { PieLabel } from "@/components/molecules/Charts/pie-label"
-import { BarMultiple } from "@/components/molecules/Charts/bar-multiple"
 import { BarHorizontal } from "@/components/molecules/Charts/bar-horizontal"
+import { BarMultiple } from "@/components/molecules/Charts/bar-multiple"
+import { PieLabel } from "@/components/molecules/Charts/pie-label"
 
 const ChartView = () => {
   return (

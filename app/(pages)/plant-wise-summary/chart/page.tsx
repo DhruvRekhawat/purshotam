@@ -1,16 +1,15 @@
 
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
 import { BarHorizontal } from '@/components/molecules/Charts/bar-horizontal'
 import { PieLabel } from '@/components/molecules/Charts/pie-label'
-import React from 'react'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const ChartView = () => {
   return (

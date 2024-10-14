@@ -1,8 +1,8 @@
-import { DataTable } from "@/components/ui/data-table"
-import InfoCard from "@/components/ui/info-card"
-import { columns,T} from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { LuPackage, LuBoxes, LuRecycle, LuBox, LuCheckSquare, LuXSquare } from "react-icons/lu";
+import { columns, T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
+import InfoCard from "@/components/ui/info-card";
+import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu";
 
 
 const TableView = () => {

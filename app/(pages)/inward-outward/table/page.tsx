@@ -1,8 +1,8 @@
-import { DataTable } from "@/components/ui/data-table"
-import InfoCard from "@/components/ui/info-card"
-import { columns,T} from "@/components/molecules/Data-Table-Columns/io-columns"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { LuBox, LuUsers, LuUserCheck, LuHardHat } from "react-icons/lu";
+import { columns } from "@/components/molecules/Data-Table-Columns/io-columns";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
+import InfoCard from "@/components/ui/info-card";
+import { LuBox, LuHardHat, LuUserCheck, LuUsers } from "react-icons/lu";
 
 
 

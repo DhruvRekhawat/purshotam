@@ -1,4 +1,3 @@
-import React from 'react'
 
 const page = ({params}: {params: {plantName: string}}) => {
     const plantName = params.plantName

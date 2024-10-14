@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 const tabs = [
   { id: "table", label: "Table View" },

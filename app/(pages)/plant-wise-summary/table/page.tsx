@@ -1,7 +1,6 @@
 import { columns, T } from '@/components/molecules/Data-Table-Columns/summary-column'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/ui/data-table'
-import React from 'react'
 
 const data: T[] = [
   {

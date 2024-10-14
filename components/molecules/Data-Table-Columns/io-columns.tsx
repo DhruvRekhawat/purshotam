@@ -1,10 +1,7 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
-import Link from "next/link"
+import { ColumnDef } from "@tanstack/react-table"
 
 // Define a type for the data structure
 export type EntryData = {

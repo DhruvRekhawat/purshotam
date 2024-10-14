@@ -7,7 +7,7 @@ import { ReactNode } from "react"
 
 
 
-const page = () => {
+const Page = () => {
   const {chats} = useStore()
   console.log(chats)
   return (
@@ -28,8 +28,8 @@ const page = () => {
             <div className="w-full">
               <ScrollArea className="h-[400px] w-full p-8 fixed bottom-12 flex flex-col gap-8">
               {
-                chats.map((message) => (
-                  <MessageBox message={message.message} type={message.type} />
+                chats.map((message,index) => (
+                  <MessageBox message={message.message} type={message.type} key={index} />
                 ))
               }
               </ScrollArea>
@@ -42,7 +42,7 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
 
 
 

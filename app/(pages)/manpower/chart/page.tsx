@@ -1,6 +1,6 @@
 import { BarMultiple } from "@/components/molecules/Charts/bar-multiple"
-import { DonutTitle } from "@/components/molecules/Charts/donut-title"
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
+import { DonutTitle } from "@/components/molecules/Charts/donut-title"
 
 const ChartView = () => {
   return (
