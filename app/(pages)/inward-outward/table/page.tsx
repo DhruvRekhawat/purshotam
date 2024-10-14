@@ -1,5 +1,3 @@
-"use client"
-
 import { columns } from "@/components/molecules/Data-Table-Columns/io-columns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
