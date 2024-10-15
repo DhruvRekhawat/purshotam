@@ -46,7 +46,7 @@ function parseJsonData(jsonString:string) {
 
 export default function Chatbox() {
 
-    const {setChat} = useStore()
+    const {setChat,toggleLoading} = useStore()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -61,6 +61,7 @@ export default function Chatbox() {
             message: values.question,
             type:"User"
         })
+        toggleLoading(true)
 
         const res = await fetch('http://65.2.69.184:8000/chat/ask',{
             mode:'cors',
@@ -79,7 +80,7 @@ export default function Chatbox() {
         const jsonStringMatch = data.response.match(/```json\n([\s\S]*?)\n```/);
         const jsonString = jsonStringMatch ? jsonStringMatch[1] : ""; // Extract the JSON part safely
         const tableData = parseJsonData(jsonString); // Parse the JSON string
-
+        toggleLoading(false)
         setChat({
             message: message, // Store the message separately
             data: tableData,

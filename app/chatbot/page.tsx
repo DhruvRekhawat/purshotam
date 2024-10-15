@@ -9,7 +9,7 @@ import { ReactNode } from "react"
 
 
 const Page = () => {
-  const {chats} = useStore()
+  const {chats,isChatLoading} = useStore()
   console.log(chats)
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -32,7 +32,7 @@ const Page = () => {
               <ScrollArea className="h-[450px] w-full p-8 flex flex-col-reverse gap-8">
               {
                 chats.map((message,index) => (
-                  <MessageBox message={message.message} type={message.type} data={message.data} key={index} />
+                  <MessageBox message={message.message} type={message.type} data={message.data} key={index} loading={isChatLoading} />
                 ))
               }
               </ScrollArea>
@@ -52,24 +52,37 @@ export default Page
 const MessageBox = (
   {message,
   data,
-  type}:
+  type,
+  loading}:
   {message:string,
   data:any,
-  type:"User"|"AI"
+  type:"User"|"AI",
+  loading:boolean,
 }):ReactNode => {
   
     return ( 
       <>
-        {type === "User" ? (
-          <Card className="bg-blue-50 justify-end w-fit p-4 m-2">
-            {message}
+      {
+        loading ? ( // Fixed the conditional rendering syntax
+          <Card className='flex p-4 justify-start items-baseline gap-2 bg-white dark:invert'>
+            <p className='text-blue-600'>Third Eye is thinking</p>
+            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce'></div>
           </Card>
-        ) : (
-          <Card className="bg-blue-300 justify-start w-fit p-4 m-2">
-            {message}
-          </Card>
-        )}
-        {data && <Card className="mt-2 p-4"><JsonTable data={data} /></Card>} 
+        ) : ( // Corrected the placement of the conditional rendering
+          type === "User" ? (
+            <Card className="bg-blue-50 justify-end w-fit p-4 m-2">
+              {message}
+            </Card>
+          ) : (
+            <Card className="bg-blue-300 justify-start w-fit p-4 m-2">
+              {message}
+            </Card>
+          )
+        )
+      }
+      {data && <Card className="mt-2 p-4"><JsonTable data={data} /></Card>} 
       </>
     )
 }
@@ -108,6 +121,7 @@ const JsonTable = ({ data }:{data: any}) => {
     </div>
   );
 };
+
 
 
 

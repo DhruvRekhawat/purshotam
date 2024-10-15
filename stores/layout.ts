@@ -16,6 +16,9 @@ type Store = {
     data?:any,
     type:"User" | "AI"
   })=>void
+
+  isChatLoading: boolean
+  toggleLoading: (is:boolean) => void
 }
 
 const today = new Date();
@@ -26,7 +29,10 @@ export const useStore = create<Store>()((set) => ({
   endDate: "",
   setEndDate: (date) => set((state) => ({ endDate: date })),
   chats: null, // Initialize as null to match the type definition
-  setChat:(newChat) => set((state)=>({chats: state.chats ? [...state.chats, newChat] : [newChat]}))
+  setChat:(newChat) => set((state)=>({chats: state.chats ? [...state.chats, newChat] : [newChat]})),
+  isChatLoading: false,
+  toggleLoading: (is) => set(()=> ({isChatLoading:is}))
+
 }))
 
 
