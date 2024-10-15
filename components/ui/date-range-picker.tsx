@@ -110,7 +110,7 @@ export default function DateRangePicker({
               mode="range"
               defaultMonth={date?.from}
               selected={date}
-              onSelect={() => handleDateChange(date)}
+              onSelect={(selectedDate) => handleDateChange(selectedDate)}
               numberOfMonths={2}
               disabled={(date) => date > new Date()}
             />
