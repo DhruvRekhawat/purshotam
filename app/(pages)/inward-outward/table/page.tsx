@@ -19,7 +19,7 @@ type resT = {
 async function getData(startDate:string,endDate:string) {
 
 
-  const res = await fetch(`http:localhost:3000/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
+  const res = await fetch(`http://13.234.117.179:3000/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
     cache:"no-store",
     method:"POST",
     body:JSON.stringify({
