@@ -1,4 +1,4 @@
-import BgImage from '../public/bg.jpeg';
+import BgImage from '@/public/peach-bg-dashboard.webp';
 import InfoCard from "@/components/ui/info-card";
 import Image from "next/image";
 import { LuBox } from "react-icons/lu";
@@ -23,9 +23,9 @@ export default function Home() {
   return (
     <main className="grid grid-cols-12 gap-8 w-full p-8">
       <div className="col-span-12 h-40 rounded-xl overflow-clip relative ">
-        <Image src={BgImage} alt="logo" className="w-full h-full object-cover -z-10 absolute" loading="eager" width={500} height={100}></Image>
-        <h2 className="text-white opacity-70 text-lg font-bold z-10 ml-4 mt-4">{day}</h2>
-        <h2 className="text-zinc-100 text-2xl font-bold z-10 ml-4">{greeting}</h2>
+        <Image src={BgImage} alt="logo" className="w-full h-full object-cover absolute z-0" loading="eager" width={500} height={100}></Image>
+        <h2 className="text-white opacity-70 text-lg font-bold z-10 ml-4 mt-12 absolute">{day}</h2>
+        <h2 className="text-zinc-100 text-2xl font-bold z-10 ml-4 mt-4 absolute">{greeting}</h2>
       </div>
       <div className="col-span-8 grid grid-cols-3 gap-4 ">
         {infoCards.map((card, index) => (

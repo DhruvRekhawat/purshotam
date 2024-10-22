@@ -29,12 +29,13 @@ const Page = () => {
             <div className="w-full h-screen">
              <h1 className="bg-gradient-to-tr from-blue-900 to-blue-400 text-transparent bg-clip-text text-center leading-loose text-2xl font-extrabold">Third Eye</h1>
 
-              <ScrollArea className="h-[450px] w-full p-8 flex flex-col-reverse gap-8">
+              <ScrollArea className="h-[80vh] w-full p-8 flex flex-col-reverse gap-8">
               {
                 chats.map((message,index) => (
                   <MessageBox message={message.message} type={message.type} data={message.data} key={index} loading={isChatLoading} />
                 ))
               }
+              {isChatLoading && <LoadingMessage />}
               </ScrollArea>
                </div>
         )}
@@ -63,14 +64,7 @@ const MessageBox = (
     return ( 
       <>
       {
-        loading ? ( // Fixed the conditional rendering syntax
-          <Card className='flex p-4 justify-start items-baseline gap-2 bg-white dark:invert'>
-            <p className='text-blue-600'>Third Eye is thinking</p>
-            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]'></div>
-            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]'></div>
-            <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce'></div>
-          </Card>
-        ) : ( // Corrected the placement of the conditional rendering
+         ( 
           type === "User" ? (
             <Card className="bg-blue-50 justify-end w-fit p-4 m-2">
               {message}
@@ -87,6 +81,18 @@ const MessageBox = (
     )
 }
 
+
+
+const LoadingMessage = () =>{
+  return ( 
+    <Card className='flex p-4 justify-start items-baseline gap-2 bg-white dark:invert'>
+      <p className='text-blue-600'>Third Eye is thinking</p>
+      <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+      <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+      <div className='h-1 w-1 bg-blue-600 rounded-full animate-bounce'></div>
+    </Card>
+  ) 
+}
 const JsonTable = ({ data }:{data: any}) => {
   if (!data || data.length === 0) {
     return <p>No data available</p>;
