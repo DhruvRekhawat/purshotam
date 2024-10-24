@@ -19,29 +19,16 @@ import {
 } from "@/components/ui/form"
 
 type ChatbotResponse = {
-    status: string
-    response: string
+    success:string,
+    message:string,
+    data?:any[]
+
 }
 
  
 const formSchema = z.object({
   question: z.string(),
 })
-
-function parseJsonData(jsonString:string) {
-    try {
-      // Remove the "```json" and "```" markers if present
-      const cleanedString = jsonString.replace(/^```json\n|\n```$/g, '');
-      
-      // Parse the JSON string into a JavaScript object
-      const data = JSON.parse(cleanedString);
-      return data;
-    } catch (error) {
-      console.error("Error parsing JSON data:", error);
-      return [];
-    }
-  }
-
 
 
 export default function Chatbox() {
@@ -75,15 +62,10 @@ export default function Chatbox() {
         const data:ChatbotResponse = await res.json()
         console.log(data)
 
-        // Extract the message and parse the JSON separately
-        const message = data.response.split('```json')[0].trim(); // Get the message part
-        const jsonStringMatch = data.response.match(/```json\n([\s\S]*?)\n```/);
-        const jsonString = jsonStringMatch ? jsonStringMatch[1] : ""; // Extract the JSON part safely
-        const tableData = parseJsonData(jsonString); // Parse the JSON string
         toggleLoading(false)
         setChat({
-            message: message, // Store the message separately
-            data: tableData,
+            message: data.message, // Store the message separately
+            data: data.data,
             type:"AI"
         })
 

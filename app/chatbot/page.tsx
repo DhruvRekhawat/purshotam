@@ -3,14 +3,28 @@ import Chatbox from "@/components/molecules/Chatbox"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useStore } from "@/stores/layout"
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 
 
 
 
 const Page = () => {
   const {chats,isChatLoading} = useStore()
-  console.log(chats)
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]')
+      if (scrollContainer) {
+        scrollContainer.scrollTo({
+          top: scrollContainer.scrollHeight,
+          behavior: 'smooth'
+        })
+      }
+    }
+  }, [chats, isChatLoading])
+
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
         {!chats ? ( // Check if chats is empty
@@ -29,7 +43,7 @@ const Page = () => {
             <div className="w-full h-screen">
              <h1 className="bg-gradient-to-tr from-blue-900 to-blue-400 text-transparent bg-clip-text text-center leading-loose text-2xl font-extrabold">Third Eye</h1>
 
-              <ScrollArea className="h-[80vh] w-full p-8 flex flex-col-reverse gap-8">
+              <ScrollArea ref={scrollAreaRef} className="h-[80vh] w-full p-8 flex flex-col-reverse gap-8">
               {
                 chats.map((message,index) => (
                   <MessageBox message={message.message} type={message.type} data={message.data} key={index} loading={isChatLoading} />
@@ -63,7 +77,7 @@ const MessageBox = (
   
     return ( 
       <>
-      {
+      { message &&
          ( 
           type === "User" ? (
             <Card className="bg-blue-50 justify-end w-fit p-4 m-2">

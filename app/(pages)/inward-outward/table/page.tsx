@@ -10,61 +10,66 @@ import { useEffect, useState } from 'react'; // Add useEffect and useState impor
 
 
 type resT = {
-  inwardData: object[],
-  outwardData: object[],
-  totalInwardQuantity: number,
-  totalOutwardQuantity: number,
+  status: string,
+  message:string,
+  data:any[]
 }
+
 
 async function getData(startDate:string,endDate:string) {
 
 
-  const res = await fetch(`http://13.234.117.179:3000/inward-outward/api?startDate=${startDate}&endDate=${endDate}`,{
-    cache:"no-store",
-    method:"POST",
-    body:JSON.stringify({
-      startDate: startDate,
-      endDate: endDate,
-    })
+  const inwardRes = await fetch(`http://13.233.157.58:3000/api/erp-inward?startDate=${startDate}&endDate=${endDate}`,{
+    method:"GET",
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  const inwardData:resT = await inwardRes.json()
+
+  const outwardRes = await fetch(`http://13.233.157.58:3000/api/erp-outward?startDate=${startDate}&endDate=${endDate}`,{
+    method:"GET",
+    headers: {
+      'Content-Type': 'application/json',
+    }
   })
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  const outwardData = await outwardRes.json()
+
+ 
+
+  if (!inwardRes.ok || !outwardRes.ok) {
     throw new Error('Failed to fetch data')
   }
- 
-  return res.json()
+
+  return [inwardData.data,outwardData.data]
+
 
 }
 
 export default function TableView() {
   const { startDate, endDate } = useStore();
-  const [data, setData] = useState({
-  inwardData: {},
-  outwardData: {},
-  totalInwardQuantity: 0,
-  totalOutwardQuantity: 0,
-  }); // State to hold fetched data
+  const [inwardData, setInwardData] = useState<any[]>(); // State to hold fetched data
+  const [outwardData, setOutwardData] = useState<any[]>(); // State to hold fetched data
   const [loading, setLoading] = useState(true); // State to manage loading status
 
   useEffect(() => {
     const fetchData = async () => {
-      const response:resT = await getData(startDate, endDate);
-      setData(response);
+      const response:any[] = await getData(startDate, endDate);
+      setInwardData(response[0]);
+      setOutwardData(response[1]);
       setLoading(false); // Set loading to false after data is fetched
     };
 
     fetchData();
+    console.log(startDate,endDate)
   }, [startDate, endDate]); // Dependency array to refetch data on date change
 
-  if (loading || !data) return <div>Loading...</div>; // Show loading state
-
-  const inwardData = data.inwardData;
-  const outwardData = data.outwardData;
+  if (loading || !inwardData || !outwardData) return <div>Loading...</div>; // Show loading state
 
   const infoCardData = [
-    { title: "Total Inward Quantity", value: data.totalInwardQuantity.toString(), badge: "", info: "Number of operational plants", link: "", icon: LuBox },
-    { title: "Total Outward Quantity", value:  data?.totalOutwardQuantity.toString(), badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
+    { title: "Total Inward Quantity", value: inwardData.length.toString(), badge: "", info: "Number of operational plants", link: "", icon: LuBox },
+    { title: "Total Outward Quantity", value:  outwardData.length.toString(), badge: "+2%", info: "Total workforce across all plants", link: "", icon: LuUsers },
     { title: "Net Stock", value: "20", badge: "", info: "Number of plant heads", link: "", icon: LuUserCheck },
     { title: "Total Number of Invoices", value: "20", badge: "", info: "Number of production heads", link: "", icon: LuHardHat },
   
@@ -84,7 +89,7 @@ export default function TableView() {
         <CardTitle>Inward Data</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={Array.isArray(inwardData) ? inwardData : []} filter="plantName" />
+        <DataTable columns={columns} data={inwardData} filter="VendorName" />
       </CardContent>
     </Card>
     <Card>
@@ -92,7 +97,7 @@ export default function TableView() {
         <CardTitle>Outward Data</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={Array.isArray(outwardData) ? outwardData : []} filter="plantName" />
+        <DataTable columns={columns} data={outwardData} filter="VendorName" />
       </CardContent>
     </Card>
     </div>
