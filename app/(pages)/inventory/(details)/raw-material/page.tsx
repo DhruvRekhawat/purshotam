@@ -9,7 +9,7 @@ import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "
 
 
 const page = () => {
-    const data: InventoryItemData[] = [
+    const data: any= [
         {
           id: "728ed52f",
           plantName: "Plant A",
