@@ -68,7 +68,7 @@ const MessageBox = (
   {message,
   data,
   type,
-  loading}:
+}:
   {message:string,
   data:any,
   type:"User"|"AI",

@@ -4,6 +4,7 @@ import { columns, T } from "@/components/molecules/Data-Table-Columns/inventory-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
+import InventorySearch from "@/components/ui/inventory-search"
 import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu"
 
 
@@ -57,15 +58,17 @@ const page = () => {
       ];
     
       const infoCardData = [
-        { title: "Raw Material", value: "1000 kg", badge: "+5%", info: "Total raw materials in inventory", icon: LuPackage },
-        { title: "Finished Goods", value: "520 units", badge: "-2%", info: "Total finished products ready for dispatch", icon: LuBoxes },
-        { title: "Scrap", value: "32 kg", badge: "+1%", info: "Total waste material from production", icon: LuRecycle },
-        { title: "Packaging Material", value: "565 boxes", badge: "+3%", info: "Total packaging materials available", icon: LuBox },
-        { title: "Ready to Dispatch", value: "3 plants", badge: "60%", info: "Number of plants ready for dispatch", icon: LuCheckSquare },
-        { title: "Not Ready", value: "2 plants", badge: "40%", info: "Number of plants not ready for dispatch", icon: LuXSquare }
+        { title: "Total Raw Material", value: "1000", badge: "+5%", info: "Total raw materials in inventory", icon: LuPackage },
+        { title: "Total GP Coil", value: "520 units", badge: "-2%", info: "Total finished products ready for dispatch", icon: LuBoxes },
+        { title: "Total GL Coil", value: "32 kg", badge: "+1%", info: "Total waste material from production", icon: LuRecycle },
+        { title: "Total HR Coil", value: "565 boxes", badge: "+3%", info: "Total packaging materials available", icon: LuBox },
+        { title: "Total Posmac Coil", value: "3 plants", badge: "60%", info: "Number of plants ready for dispatch", icon: LuCheckSquare },
+        { title: "Total Galvalum Coil", value: "2 plants", badge: "40%", info: "Number of plants not ready for dispatch", icon: LuXSquare }
       ];
   return (
     <>
+        <InventorySearch></InventorySearch>
+
     <div className='grid grid-cols-3 gap-4 p-6 mb-6 border-b-2 border-gray-200'>
         {infoCardData.map((item, index) => (
           <InfoCard  key={index} title={item.title} value={item.value} badge={item.badge} info={item.info} icon={<item.icon className="w-4 h-4"/>} link="" />

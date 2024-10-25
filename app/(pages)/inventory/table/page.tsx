@@ -57,12 +57,12 @@ const TableView = () => {
   ];
 
   const infoCardData = [
-    { title: "Raw Material", value: "1000 kg", badge: "+5%", info: "Total raw materials in inventory", link: "/inventory/table/raw-material", icon: LuPackage },
-    { title: "Finished Goods", value: "520 units", badge: "-2%", info: "Total finished products ready for dispatch", link: "/inventory/table/finished-goods", icon: LuBoxes },
-    { title: "Scrap", value: "32 kg", badge: "+1%", info: "Total waste material from production", link: "/inventory/table/scrap", icon: LuRecycle },
-    { title: "Packaging Material", value: "565 boxes", badge: "+3%", info: "Total packaging materials available", link: "/inventory/table/packaging-material", icon: LuBox },
-    { title: "Ready to Dispatch", value: "3 plants", badge: "60%", info: "Number of plants ready for dispatch", link: "/inventory/table/ready-to-dispatch", icon: LuCheckSquare },
-    { title: "Not Ready", value: "2 plants", badge: "40%", info: "Number of plants not ready for dispatch", link: "/inventory/table/not-ready", icon: LuXSquare }
+    { title: "Raw Material", value: "1000 kg", badge: "+5%", info: "Total raw materials in inventory", link: "/inventory/raw-material", icon: LuPackage },
+    { title: "Finished Goods", value: "520 units", badge: "-2%", info: "Total finished products ready for dispatch", link: "/inventory/finished-goods", icon: LuBoxes },
+    { title: "Scrap", value: "32 kg", badge: "+1%", info: "Total waste material from production", link: "/inventory/scrap", icon: LuRecycle },
+    { title: "Packaging Material", value: "565 boxes", badge: "+3%", info: "Total packaging materials available", link: "/inventory/packaging-material", icon: LuBox },
+    { title: "Ready to Dispatch", value: "3 plants", badge: "60%", info: "Number of plants ready for dispatch", link: "", icon: LuCheckSquare },
+    { title: "Not Ready", value: "2 plants", badge: "40%", info: "Number of plants not ready for dispatch", link: "", icon: LuXSquare }
   ];
 
   return (
