@@ -1,6 +1,6 @@
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
 import { DonutTitle } from "@/components/molecules/Charts/donut-title"
-import { columns, T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns"
+import { columns, InventoryItemData } from "@/components/molecules/Data-Table-Columns/inventory-columns"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
@@ -9,7 +9,7 @@ import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "
 
 
 const page = () => {
-    const data: T[] = [
+    const data: InventoryItemData[] = [
         {
           id: "728ed52f",
           plantName: "Plant A",

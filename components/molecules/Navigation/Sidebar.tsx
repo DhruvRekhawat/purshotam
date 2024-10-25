@@ -78,7 +78,7 @@ export const Sidebar = () => {
           open={open}
         />
         <Option
-          href="plant-wise-summary"
+          href="/plant-wise-summary"
           Icon={LuClipboardCopy}
           title="Plant Wise Summary"
           selected={selected}
@@ -86,7 +86,7 @@ export const Sidebar = () => {
           open={open}
         />
         <Option
-          href="manpower"
+          href="/manpower"
           Icon={LuUsers2}
           title="Man Power"
           selected={selected}
@@ -94,7 +94,7 @@ export const Sidebar = () => {
           open={open}
         />
         <Option
-          href="inward-outward"
+          href="/inward-outward"
           Icon={LuTruck}
           title="Inward/Outward"
           selected={selected}
@@ -102,7 +102,7 @@ export const Sidebar = () => {
           open={open}
         />
         <Option
-          href="project-wise-summary"
+          href="/project-wise-summary"
           Icon={LuLandmark}
           title="Project Wise Summary"
           selected={selected}
@@ -110,7 +110,7 @@ export const Sidebar = () => {
           open={open}
         />
         <Option
-          href="chatbot"
+          href="/chatbot"
           Icon={LuSparkles}
           title="Third Eye Chatbot"
           selected={selected}
