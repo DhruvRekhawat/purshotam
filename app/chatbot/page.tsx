@@ -121,8 +121,11 @@ const JsonTable = ({ data }: { data: any[] }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setTableData(data);
-  }, [data]);
+    async ()=>{
+      await fetchPageData(currentPage,itemsPerPage);
+
+    }
+  }, [currentPage,itemsPerPage]);
 
   if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
@@ -155,18 +158,10 @@ const JsonTable = ({ data }: { data: any[] }) => {
 
         const responseData = await res.json();
         console.log('Response Data:', responseData);
-        
-        if (responseData.success && responseData.data) {
           setTableData(responseData.data);
-          setChat({
-            message: responseData.message,
-            data: responseData.data,
-            page: responseData.pagination?.currentPage,
-            type: "AI",
-            url: lastChat.url,
-            question: lastChat.question // Preserve the question
-          });
-        }
+          setItemsPerPage(limit)
+          setCurrentPage(page)
+        
       } catch (error) {
         console.error('Error fetching page data:', error);
       } finally {
@@ -177,22 +172,23 @@ const JsonTable = ({ data }: { data: any[] }) => {
 
   const handleItemsPerPageChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLimit = parseInt(event.target.value);
-    console.log('Changing items per page to:', newLimit);
-    
-    // Set the new limit first
-    setItemsPerPage(newLimit);
-    setCurrentPage(1);
+      // Set the new limit first
+
     
     // Use setTimeout to ensure state is updated
     setTimeout(() => {
+      setItemsPerPage(newLimit);
       fetchPageData(1, newLimit);
     }, 0);
   };
 
   const handlePageChange = async (page: number) => {
-    console.log('Changing to page:', page, 'with', itemsPerPage, 'items per page');
-    setCurrentPage(page);
-    await fetchPageData(page, itemsPerPage);
+    
+    setTimeout(()=>{
+      setCurrentPage(page);
+      fetchPageData(page, itemsPerPage);
+    },0)
+    
   };
 
   return (
@@ -267,7 +263,7 @@ const JsonTable = ({ data }: { data: any[] }) => {
         </div>
       </div>
       <div className="mt-2 text-sm text-gray-500">
-        Showing {tableData.length} items (Page {currentPage}, {itemsPerPage} per page)
+        Showing {itemsPerPage} items (Page {currentPage}, {itemsPerPage} per page)
       </div>
     </div>
   );

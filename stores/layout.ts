@@ -8,7 +8,7 @@ type Store = {
 
   chats: {
     message?:string,
-    data?:any,
+    data?:any[],
     type:"User" | "AI"
     page?: number,
     question?: string,
@@ -16,7 +16,7 @@ type Store = {
   }[] | null
   setChat: (newChat:{
     message?:string,
-    data?:any,
+    data?:any[],
     type:"User" | "AI",
     page?: number,
     question?: string
