@@ -121,10 +121,10 @@ const JsonTable = ({ data }: { data: any[] }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async ()=>{
-      await fetchPageData(currentPage,itemsPerPage);
+    
+     fetchPageData(currentPage,itemsPerPage);
 
-    }
+    
   }, [currentPage,itemsPerPage]);
 
   if (!tableData || tableData.length === 0) {

@@ -2,16 +2,13 @@
 
 import { BarSingle } from "@/components/molecules/Charts/bar-single"
 import { DonutTitle } from "@/components/molecules/Charts/donut-title"
-import { columns, InventoryItemData } from "@/components/molecules/Data-Table-Columns/inventory-columns"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
-import InventorySearch from "@/components/ui/inventory-search"
 import { useEffect, useState } from "react"
-import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu"
+import { LuPackage } from "react-icons/lu"
 
 
-const page = () => {
+const Page = () => {
 
 
       const [cardData,setCardData]=useState([])    
@@ -71,4 +68,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

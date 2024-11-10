@@ -6,12 +6,16 @@ import { columns, InventoryData } from "@/components/molecules/Data-Table-Column
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
-import InventorySearch from "@/components/ui/inventory-search"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 import { useEffect, useState } from "react"
-import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu"
+import { LuPackage } from "react-icons/lu"
 
-
-const page = () => {
+const Page = () => {
 
 
       const [cardData,setCardData]=useState([])    
@@ -57,7 +61,20 @@ const page = () => {
 
 
   return (
+
     <>
+
+<Tabs defaultValue="account" className="w-[400px]">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+                  
+      </TabsContent>
+      <TabsContent value="password">
+        </TabsContent>
+    </Tabs>
         {/* <InventorySearch></InventorySearch> */}
 
     <div className='grid grid-cols-3 gap-4 p-6 mb-6 border-b-2 border-gray-200'>
@@ -84,4 +101,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -1,10 +1,12 @@
-import { columns, T } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns";
+"use client";
+
+import { useEffect, useState } from 'react';
+import { columns } from "@/components/molecules/Data-Table-Columns/inventory-inventoryBreakdown-columns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import InfoCard from "@/components/ui/info-card";
-import { LuBox, LuBoxes, LuCheckSquare, LuPackage, LuRecycle, LuXSquare } from "react-icons/lu";
-
-
+import { useStore } from "@/stores/layout";
+import { LuBox, LuBoxes, LuPackage, LuRecycle } from "react-icons/lu";
 
 interface StockCategory {
   CategoryName: string;
@@ -17,56 +19,110 @@ interface StockResponse {
   data: StockCategory[];
 }
 
+const TableView = () => {
+  const { startDate, endDate } = useStore();
+  const [stockData, setStockData] = useState<StockCategory[]>([]);
+  const [stockGodownWiseData, setStockGodownWiseData] = useState([]);
 
-const TableView = async({startDate,endDate}:{startDate:string,endDate:string}) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch stock data
+        const stockResponse = await fetch('http://13.233.157.58:3000/api/para/total-stock-by-category', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            startDate,
+            endDate
+          })
+        });
+        const stockResult = await stockResponse.json();
+        setStockData(stockResult.data || []);
 
-  const stock = await fetch('http://13.233.157.58:3000/api/para/total-stock-by-category',{
-    method:"POST",
-    body:JSON.stringify({
-      startDate:startDate,
-      endDate:endDate
-    })
-  })
-  const stockResponse:StockResponse = await stock.json()
-  const  stockData:StockCategory[] = stockResponse.data
+        // Fetch godown-wise stock data
+        const godownResponse = await fetch('http://13.233.157.58:3000/api/para/total-stock-by-godown-and-category', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            startDate,
+            endDate
+          })
+        });
+        const godownResult = await godownResponse.json();
+        setStockGodownWiseData(godownResult.data || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchData();
+  }, [startDate, endDate]);
 
-  const stockGodownWise = await fetch('http://13.233.157.58:3000/api/para/total-stock-by-godown-and-category',{
-    method:"POST",
-    body:JSON.stringify({
-      startDate:startDate,
-      endDate:endDate
-    })
-  })
-
-  const stockGodownWiseResponse = await stockGodownWise.json() 
-  const  stockGodownWiseData = stockGodownWiseResponse.data
-
-  const infoCardData = [
-    { title: "Raw Material", value: stockData[2].AvailableStockMT.toString(), badge: "", info: "Total raw materials in inventory", link: "/inventory/raw-material", icon: LuPackage },
-    { title: "Finished Goods", value: stockData[1].AvailableStockMT.toString(), badge: "", info: "Total finished products ready for dispatch", link: "/inventory/finished-goods", icon: LuBoxes },
-    { title: "Scrap", value: stockData[3].AvailableStockMT.toString(), badge: "", info: "Total waste material from production", link: "/inventory/scrap", icon: LuRecycle },
-    { title: "Ladder", value: stockData[0].AvailableStockMT.toString(), badge: "+3%", info: "Total packaging materials available", link: "/inventory/packaging-material", icon: LuBox },
-  ];
+  const infoCardData = stockData.length ? [
+    {
+      title: "Raw Material",
+      value: (stockData.find(item => item.CategoryName === "Raw Material")?.AvailableStockMT || 0).toString(),
+      badge: "",
+      info: "Total raw materials in inventory",
+      link: "/inventory/raw-material",
+      icon: LuPackage
+    },
+    {
+      title: "Finished Goods",
+      value: (stockData.find(item => item.CategoryName === "Finished Goods")?.AvailableStockMT || 0).toString(),
+      badge: "",
+      info: "Total finished products ready for dispatch",
+      link: "/inventory/finished-goods",
+      icon: LuBoxes
+    },
+    {
+      title: "Scrap",
+      value: (stockData.find(item => item.CategoryName === "Scrap")?.AvailableStockMT || 0).toString(),
+      badge: "",
+      info: "Total waste material from production",
+      link: "/inventory/scrap",
+      icon: LuRecycle
+    },
+    {
+      title: "Ladder",
+      value: (stockData.find(item => item.CategoryName === "Ladder")?.AvailableStockMT || 0).toString(),
+      badge: "+3%",
+      info: "Total packaging materials available",
+      link: "",
+      icon: LuBox
+    }
+  ] : [];
 
   return (
     <>
-    <div className='grid grid-cols-3 gap-4 p-6 mb-6 border-b-2 border-gray-200'>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 mb-6 border-b-2 border-gray-200">
         {infoCardData.map((item, index) => (
-          <InfoCard  key={index} title={item.title} value={item.value + " MT"} badge={item.badge} info={item.info} icon={<item.icon className="w-4 h-4" />} link={`${item.link}`} />
+          <InfoCard
+            key={index}
+            title={item.title}
+            value={`${item.value} MT`}
+            badge={item.badge}
+            info={item.info}
+            icon={<item.icon className="w-4 h-4" />}
+            link={item.link}
+          />
         ))}
-    </div>
-    <Card>
-      <CardHeader>
-        <CardTitle>Inventory Breakdown</CardTitle>
-        <CardDescription>View the inventory breakdown for each plant.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <DataTable columns={columns} data={stockGodownWiseData} filter="plant" />
-      </CardContent>
-    </Card>
+      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Inventory Breakdown</CardTitle>
+          <CardDescription>View the inventory breakdown for each plant.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DataTable columns={columns} data={stockGodownWiseData} filter="plant" />
+        </CardContent>
+      </Card>
     </>
-  )
-}
+  );
+};
 
-export default TableView
+export default TableView;
