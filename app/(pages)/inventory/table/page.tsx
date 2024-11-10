@@ -39,7 +39,8 @@ const TableView = () => {
           })
         });
         const stockResult = await stockResponse.json();
-        setStockData(stockResult.data || []);
+        setStockData(stockResult.data);
+        console.log(stockResult.data)
 
         // Fetch godown-wise stock data
         const godownResponse = await fetch('http://13.233.157.58:3000/api/para/total-stock-by-godown-and-category', {
@@ -65,7 +66,7 @@ const TableView = () => {
   const infoCardData = stockData.length ? [
     {
       title: "Raw Material",
-      value: (stockData.find(item => item.CategoryName === "Raw Material")?.AvailableStockMT || 0).toString(),
+      value: stockData[2].AvailableStockMT.toFixed(4).toString(),
       badge: "",
       info: "Total raw materials in inventory",
       link: "/inventory/raw-material",
@@ -73,7 +74,7 @@ const TableView = () => {
     },
     {
       title: "Finished Goods",
-      value: (stockData.find(item => item.CategoryName === "Finished Goods")?.AvailableStockMT || 0).toString(),
+      value: stockData[0].AvailableStockMT.toFixed(4).toString(),
       badge: "",
       info: "Total finished products ready for dispatch",
       link: "/inventory/finished-goods",
@@ -81,7 +82,7 @@ const TableView = () => {
     },
     {
       title: "Scrap",
-      value: (stockData.find(item => item.CategoryName === "Scrap")?.AvailableStockMT || 0).toString(),
+      value: stockData[3].AvailableStockMT.toFixed(4).toString(),
       badge: "",
       info: "Total waste material from production",
       link: "/inventory/scrap",
@@ -89,7 +90,7 @@ const TableView = () => {
     },
     {
       title: "Ladder",
-      value: (stockData.find(item => item.CategoryName === "Ladder")?.AvailableStockMT || 0).toString(),
+      value: stockData[1].AvailableStockMT.toFixed(4).toString(),
       badge: "+3%",
       info: "Total packaging materials available",
       link: "",
