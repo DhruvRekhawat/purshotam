@@ -11,11 +11,12 @@ import Link from "next/link"
 // You can use a Zod schema here if you want.
 export type T = {
   id: string
-  plantName: string,
+  godown: string,
   rawMaterial: string,
   finishedGood: string,
   scrap: string,
   packagingMaterial: string,
+  ladder: string,
   status: "Ready to Dispatch" | "Not Ready to Dispatch",
 }
 
@@ -43,7 +44,7 @@ export const columns: ColumnDef<T>[] = [
     enableHiding: false,
     },
   {
-    accessorKey: "plantName",
+    accessorKey: "godown",
     header: ({ column }) => {
         return (
           <Button
@@ -56,30 +57,24 @@ export const columns: ColumnDef<T>[] = [
         )
       },
       cell: ({row}) => {
-        return <Link href={`/inventory/${row.original.plantName}`}>{row.original.plantName}</Link>
+        return <Link href={`/inventory/${row.original.godown}`}>{row.original.godown}</Link>
       }
   },
   {
-    accessorKey: "rawMaterial",
+    accessorKey: "RM",
     header: "Raw Material",
   },
   {
-    accessorKey: "finishedGood",
+    accessorKey: "FG",
     header: "Finished Good",
   },
   {
-    accessorKey: "scrap",
+    accessorKey: "SCRAP",
     header: "Scrap",
   },
   {
-    accessorKey: "packagingMaterial",
-    header: "Packaging Material",
+    accessorKey: "LADDER",
+    header: "Ladder",
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({row}) => {
-        return <Badge className={`${row.original.status === "Ready to Dispatch" ? "bg-green-200 border-green-500 text-green-500" : "bg-red-200 border-red-500 text-red-500"}`}>{row.original.status}</Badge>
-  },
-  },
+
 ]

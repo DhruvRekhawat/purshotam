@@ -19,19 +19,27 @@ type resT = {
 async function getData(startDate:string,endDate:string) {
 
 
-  const inwardRes = await fetch(`http://13.233.157.58:3000/api/erp-inward?startDate=${startDate}&endDate=${endDate}`,{
-    method:"GET",
+  const inwardRes = await fetch(`http://13.233.157.58:3000/api/erp-inward/filter`,{
+    method:"POST",
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
+    body:JSON.stringify({
+      "startDate": startDate,
+      "endDate": endDate
+    })
   })
   const inwardData:resT = await inwardRes.json()
 
-  const outwardRes = await fetch(`http://13.233.157.58:3000/api/erp-outward?startDate=${startDate}&endDate=${endDate}`,{
-    method:"GET",
+  const outwardRes = await fetch(`http://13.233.157.58:3000/api/erp-outward/filter`,{
+    method:"POST",
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
+    body:JSON.stringify({
+      "startDate": startDate,
+      "endDate": endDate
+    })
   })
 
   const outwardData = await outwardRes.json()

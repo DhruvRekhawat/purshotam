@@ -7,14 +7,20 @@ type Store = {
   setEndDate:(date:string)=> void
 
   chats: {
-    message:string,
+    message?:string,
     data?:any,
     type:"User" | "AI"
+    page?: number,
+    question?: string,
+    url:string
   }[] | null
   setChat: (newChat:{
-    message:string,
+    message?:string,
     data?:any,
-    type:"User" | "AI"
+    type:"User" | "AI",
+    page?: number,
+    question?: string
+    url: string
   })=>void
 
   isChatLoading: boolean

@@ -25,6 +25,7 @@ import { JobWorkData, columns as jobWorkColumn } from "@/components/molecules/Da
 import { DeliveryChallanData, columns as dcColumn } from "@/components/molecules/Data-Table-Columns/tally/deliveryChallan-column"
 import { DeliveryNoteData, columns as dnpColumn } from "@/components/molecules/Data-Table-Columns/tally/dnp-column"
 import { ColumnDef } from "@tanstack/react-table"
+import { useStore } from "@/stores/layout";
 
 // Define available table types
 const TABLE_TYPES = ['purchase', 'sales', 'jobWork', 'dc','dnp2','dnp4','dnp6'] as const;
@@ -67,17 +68,25 @@ const Tally = () => {
     const [tab, setTab] = useState("Gzb Plant");
     const [select, setSelect] = useState<TableType>("purchase");
     const [data, setData] = useState<Array<DataTypes[TableType]>>([]);
+    const { startDate, endDate } = useStore();
+
 
     useEffect(() => {
-        const url = `http://13.233.157.58:3000/api/${select}/filter?startDate=&endDate=`
-        fetch(url)
+        const url = `http://13.233.157.58:3000/api/${select}/filter`
+        fetch(url,{
+            method:"POST",
+      body:JSON.stringify({
+      "startDate": startDate,
+      "endDate": endDate
+         })
+        })
             .then(res => res.json())
             .then(data => setData(data.data))
             .catch(error => {
                 console.error('Error fetching data:', error);
                 setData([]);
             });
-    }, [tab, select]);
+    }, [tab, select,startDate,endDate]);
 
     const onSelectChange = (value: TableType) => {
         setSelect(value);
@@ -95,6 +104,9 @@ const Tally = () => {
         }
         if(value === "Guj Plant 6"){
           setSelect("dnp6")
+        }
+        if(value === "Gzb Plant"){
+          setSelect("purchase")
         }
         
     };

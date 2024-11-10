@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 import { LuFilter } from 'react-icons/lu'
 
 const Topbar = () => {
-    // const [date, setDate] = useState(new Date());
     const path = usePathname()
     const breadcrumb = path?.split('/').slice(1).map((item) => item.toUpperCase()).join(' ')
   return (

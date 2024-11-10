@@ -3,13 +3,14 @@ import Chatbox from "@/components/molecules/Chatbox"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useStore } from "@/stores/layout"
-import { ReactNode, useEffect, useRef } from "react"
+import { ReactNode, use, useEffect, useRef, useState } from "react"
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu"
 
 
 
 
 const Page = () => {
-  const {chats,isChatLoading} = useStore()
+  const {chats,setChat,isChatLoading} = useStore()
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
@@ -24,6 +25,7 @@ const Page = () => {
     }
   }, [chats, isChatLoading])
 
+  console.log(chats)
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -46,7 +48,7 @@ const Page = () => {
               <ScrollArea ref={scrollAreaRef} className="h-[80vh] w-full p-8 flex flex-col-reverse gap-8">
               {
                 chats.map((message,index) => (
-                  <MessageBox message={message.message} type={message.type} data={message.data} key={index} loading={isChatLoading} />
+                  <MessageBox message={message?.message} type={message.type} data={message.data} key={index} loading={isChatLoading} />
                 ))
               }
               {isChatLoading && <LoadingMessage />}
@@ -69,7 +71,7 @@ const MessageBox = (
   data,
   type,
 }:
-  {message:string,
+  {message?:string,
   data:any,
   type:"User"|"AI",
   loading:boolean,
@@ -90,7 +92,7 @@ const MessageBox = (
           )
         )
       }
-      {data && <Card className="mt-2 p-4"><JsonTable data={data} /></Card>} 
+      {data && <Card className="mt-2 p-4"><JsonTable data={data}  /></Card>} 
       </>
     )
 }
@@ -98,6 +100,8 @@ const MessageBox = (
 
 
 const LoadingMessage = () =>{
+
+
   return ( 
     <Card className='flex p-4 justify-start items-baseline gap-2 bg-white dark:invert'>
       <p className='text-blue-600'>Third Eye is thinking</p>
@@ -107,28 +111,111 @@ const LoadingMessage = () =>{
     </Card>
   ) 
 }
-const JsonTable = ({ data }:{data: any}) => {
-  if (!data || data.length === 0) {
+
+
+const JsonTable = ({ data }: { data: any[] }) => {
+  const {chats, setChat} = useStore()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(30);
+  const [tableData, setTableData] = useState(data);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
+  if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
   }
 
-  const headers = Object.keys(data[0]);
+  const headers = Object.keys(tableData[0]);
+
+  const fetchPageData = async (page: number, limit: number) => {
+    setIsLoading(true);
+    if (chats && chats.length > 0) {
+      const lastChat = chats[chats.length - 1];
+      const requestBody = {
+        page: page,
+        limit: limit
+      };
+      
+      console.log('Request URL:', lastChat.url);
+      console.log('Request Body:', requestBody);
+
+      try {
+        const res = await fetch(lastChat.url, {
+          mode: 'cors',
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        const responseData = await res.json();
+        console.log('Response Data:', responseData);
+        
+        if (responseData.success && responseData.data) {
+          setTableData(responseData.data);
+          setChat({
+            message: responseData.message,
+            data: responseData.data,
+            page: responseData.pagination?.currentPage,
+            type: "AI",
+            url: lastChat.url,
+            question: lastChat.question // Preserve the question
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching page data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleItemsPerPageChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLimit = parseInt(event.target.value);
+    console.log('Changing items per page to:', newLimit);
+    
+    // Set the new limit first
+    setItemsPerPage(newLimit);
+    setCurrentPage(1);
+    
+    // Use setTimeout to ensure state is updated
+    setTimeout(() => {
+      fetchPageData(1, newLimit);
+    }, 0);
+  };
+
+  const handlePageChange = async (page: number) => {
+    console.log('Changing to page:', page, 'with', itemsPerPage, 'items per page');
+    setCurrentPage(page);
+    await fetchPageData(page, itemsPerPage);
+  };
 
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-blue-100">
             {headers.map((header, index) => (
-              <th key={index} className="py-2 px-4 border-b text-left font-semibold text-gray-600">
+              <th
+                key={index}
+                className="py-2 px-4 border-b text-left font-semibold text-blue-600"
+              >
                 {header.replace(/_/g, ' ').toUpperCase()}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>
-          {data.map((row:any, rowIndex:number) => (
-            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+        <tbody className={isLoading ? 'opacity-50' : ''}>
+          {tableData.map((row: any, rowIndex: number) => (
+            <tr
+              key={rowIndex}
+              className={rowIndex % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
+            >
               {headers.map((header, cellIndex) => (
                 <td key={cellIndex} className="py-2 px-4 border-b">
                   {row[header] !== null ? row[header].toString() : '-'}
@@ -138,10 +225,50 @@ const JsonTable = ({ data }:{data: any}) => {
           ))}
         </tbody>
       </table>
+      <div className="flex justify-between items-center mt-4">
+        <div>
+          <label htmlFor="items-per-page" className="mr-2">
+            Items per page:
+          </label>
+          <select
+            id="items-per-page"
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            className="px-2 py-1 border border-gray-300 rounded"
+            disabled={isLoading}
+          >
+            <option value={30}>30</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            className={`px-2 py-1 border border-gray-300 rounded ${
+              currentPage === 1 || isLoading ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+            }`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1 || isLoading}
+          >
+            <LuChevronLeft size={16} />
+          </button>
+          <span>
+            Page {currentPage}
+          </span>
+          <button
+            className={`px-2 py-1 border border-gray-300 rounded ${
+              isLoading ? 'opacity-50' : 'hover:bg-gray-100'
+            }`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={isLoading}
+          >
+            <LuChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+      <div className="mt-2 text-sm text-gray-500">
+        Showing {tableData.length} items (Page {currentPage}, {itemsPerPage} per page)
+      </div>
     </div>
   );
 };
-
-
-
-
