@@ -72,7 +72,7 @@ const Tally = () => {
 
 
     useEffect(() => {
-        const url = `http://13.233.157.58:3000/api/${select}/filter`
+        const url = `http://13.233.157.58:3000/api/${select}`
         fetch(url,{
             method:"POST",
       body:JSON.stringify({

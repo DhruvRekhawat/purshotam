@@ -6,12 +6,15 @@ import { columns, InventoryData } from "@/components/molecules/Data-Table-Column
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import InfoCard from "@/components/ui/info-card"
+import InventorySearch from "@/components/ui/inventory-search"
+import {columns as SearchBarColumn} from '@/components/molecules/Data-Table-Columns/raw-materials-search'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { useStore } from "@/stores/layout"
 import { useEffect, useState } from "react"
 import { LuPackage } from "react-icons/lu"
 
@@ -19,8 +22,8 @@ const Page = () => {
 
 
       const [cardData,setCardData]=useState([])    
-      const [tableData,setTableData]=useState<InventoryData[]>([])    
-
+      const [tableData,setTableData]=useState<InventoryData[]>([]) 
+      const {searchBarData} = useStore()   
       useEffect(()=>{
         const apiData= fetch("http://13.233.157.58:3000/api/para/total-stock-item-wise-by-category",{
           method:"POST",
@@ -32,7 +35,7 @@ const Page = () => {
         })
         }).then((res)=>res.json()).then((data)=>data.data).then((data)=>setCardData(data))
         .catch((err)=>console.error(err))
-      })
+      },[])
       useEffect(()=>{
         const apiData= fetch("http://13.233.157.58:3000/api/para/total-stock-by-category-for-all-godowns",{
           method:"POST",
@@ -44,7 +47,7 @@ const Page = () => {
         })
         }).then((res)=>res.json()).then((data)=>data.data).then((data)=>setTableData(data))
         .catch((err)=>console.error(err))
-      })
+      },[])
 
       
       
@@ -64,18 +67,21 @@ const Page = () => {
 
     <>
 
-<Tabs defaultValue="account" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">
-                  
-      </TabsContent>
-      <TabsContent value="password">
-        </TabsContent>
-    </Tabs>
-        {/* <InventorySearch></InventorySearch> */}
+
+        <InventorySearch></InventorySearch>
+        <div className="my-8">
+        {
+          searchBarData && 
+          <Card>
+          <CardHeader>
+            <CardTitle>Search Results</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DataTable columns={SearchBarColumn} data={searchBarData} filter="ItemName" />
+          </CardContent>
+        </Card>
+        }
+        </div>
 
     <div className='grid grid-cols-3 gap-4 p-6 mb-6 border-b-2 border-gray-200'>
         {infoCardData.map((item, index) => (
