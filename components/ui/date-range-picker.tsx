@@ -56,8 +56,10 @@ export default function DateRangePicker({
       if (dates?.from && dates?.to) {
           const startDate = format(dates.from, 'yyyy-MM-dd'); // Format start date
           const endDate = format(dates.to, 'yyyy-MM-dd'); // Format end date
+          console.log(startDate,endDate)
           setStartDate(startDate)
           setEndDate(endDate)
+
     }
   }
 

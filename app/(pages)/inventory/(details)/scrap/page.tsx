@@ -42,7 +42,7 @@ const Page = () => {
     })
     }).then((res)=>res.json()).then((data)=>data.data).then((data)=>setTableData(data))
     .catch((err)=>console.error(err))
-  })
+  },[])
 
 
   const infoCardData = cardData.map(({ ItemName, AvailableStockMT }) => ({
