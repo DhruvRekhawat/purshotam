@@ -34,8 +34,7 @@ const TableView = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            startDate,
-            endDate
+            "EntryDate":startDate
           })
         });
         const stockResult = await stockResponse.json();
@@ -49,8 +48,7 @@ const TableView = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            startDate,
-            endDate
+            "EntryDate":startDate
           })
         });
         const godownResult = await godownResponse.json();

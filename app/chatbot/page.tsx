@@ -3,14 +3,14 @@ import Chatbox from "@/components/molecules/Chatbox"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useStore } from "@/stores/layout"
-import { ReactNode, use, useEffect, useRef, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu"
 
 
 
 
 const Page = () => {
-  const {chats,setChat,isChatLoading} = useStore()
+  const {chats,isChatLoading} = useStore()
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
@@ -138,9 +138,11 @@ const JsonTable = ({ data }: { data: any[] }) => {
     if (chats && chats.length > 0) {
       const lastChat = chats[chats.length - 1];
       const requestBody = {
-        page: page,
-        limit: limit
-      };
+        page:page,
+        limit:limit,
+        startDate: lastChat.payload?.startDate,
+        endDate:lastChat.payload?.endDate,
+      }
       
       console.log('Request URL:', lastChat.url);
       console.log('Request Body:', requestBody);

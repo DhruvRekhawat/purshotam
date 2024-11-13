@@ -39,6 +39,12 @@ StockOutQTYMT: number
     type:"User" | "AI"
     page?: number,
     question?: string,
+    payload?:{
+      startDate: string,
+          endDate: string,
+          limit: number,
+          page: number
+    },
     url:string
   }[] | null
   setChat: (newChat:{
@@ -46,7 +52,14 @@ StockOutQTYMT: number
     data?:any[],
     type:"User" | "AI",
     page?: number,
-    question?: string
+    question?: string,
+    payload?:{
+      startDate: string,
+          endDate: string,
+          limit: number,
+          page: number
+
+    },
     url: string
   })=>void
 

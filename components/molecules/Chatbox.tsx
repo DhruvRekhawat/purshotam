@@ -85,6 +85,7 @@ export default function Chatbox() {
                 page: data.pagination?.currentPage,
                 type: "AI",
                 url:data.debug?.endpoint,
+                payload: data.debug.payload,
                 question: values.question 
             })
             console.log(chats)
